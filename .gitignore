@@ -1,0 +1,7 @@
+# esto es un comentario
+development.log
+build
+node_modules
+*.7z
+logs/access.log
+
