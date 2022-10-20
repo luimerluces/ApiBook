@@ -10,16 +10,22 @@ class MainUser {
         let UserPassword = "";
         let validPassword;
         if (Login && Password) {        
-            dbConnection.query('SELECT Password FROM User WHERE Login = ?', [Login], async function(error, results, fields){            
+            dbConnection.query('SELECT Id_usuario,Nombres,Apellidos,Edad,Login,Password,Email FROM User WHERE Login = ?', [Login], async function(error, results, fields){            
                 if (error) throw error; 
                 if (results.length > 0) { 
-                    UserPassword=results[0].Password;
+                    let Nombres=results[0].Nombres;
+                    let Apellidos=results[0].Apellidos;
+                    let UserPassword=results[0].Password;
+                    let ID_Cliente=results[0].Id_usuario;
                     console.log(UserPassword);
                     validPassword = await bcrypt.compare(Password, UserPassword);
                     if (validPassword) {
                         res.json({
                             success: true,
                             message: 'Bienvenido a Sistema de Registro de Libro',
+                            NombresUsuarios: Nombres,
+                            ApellidosUsuarios: Apellidos,
+                            ID_Cliente: ID_Cliente,                    
                             token: jwt.sign({
                                    usuario: Login
                                 }, MY_Configuration.secret, {
